@@ -1,89 +1,47 @@
 
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#ff5635">
 <title>Foodie - Food Delivery</title>
 
 <style>
 *{box-sizing:border-box}
-body{
- margin:0;
- font-family:Arial,sans-serif;
- background:#f7f7f7;
- color:#222;
- padding-bottom:90px
-}
+body{margin:0;font-family:Arial,sans-serif;background:#f7f7f7;color:#222;padding-bottom:85px}
 header{background:white;padding:20px}
-.logo{font-size:30px;color:#ff5635;font-weight:bold}
 .top{display:flex;justify-content:space-between;align-items:center}
-.lang{
- background:#ff5635;color:white;border:0;
- padding:10px 14px;border-radius:9px;font-weight:bold
-}
-header p{color:#777}
-.search{
- width:100%;padding:15px;border:1px solid #ddd;
- border-radius:15px;font-size:16px;margin-top:12px
-}
-h2{margin:24px 16px 14px}
-.categories{
- display:flex;overflow-x:auto;gap:12px;padding:8px 15px
-}
-.cat{
- min-width:90px;text-align:center;background:white;
- padding:15px 8px;border-radius:15px;cursor:pointer;
- border:2px solid transparent
-}
+.logo{font-size:30px;color:#ff5635}
+button{cursor:pointer;border:0;border-radius:10px;padding:12px;background:#ff5635;color:white;font-size:15px}
+.lang{font-weight:bold}
+.profile{font-size:13px;color:#555;margin-top:10px}
+.search{width:100%;padding:16px;border:1px solid #ddd;border-radius:15px;font-size:16px;margin-top:20px}
+section{padding:15px}
+h2{font-size:22px;font-weight:500}
+.categories{display:flex;overflow-x:auto;gap:12px}
+.cat{min-width:100px;background:white;padding:15px;text-align:center;border-radius:15px;border:2px solid transparent}
+.cat span{display:block;font-size:35px}
 .cat.active{border-color:#ff5635}
-.cat span{font-size:35px;display:block}
-.banner{
- margin:18px 15px;padding:25px;
- background:#ff5635;color:white;border-radius:18px
-}
-.banner h2{margin:0 0 10px}
-.foods{
- display:grid;grid-template-columns:1fr 1fr;
- gap:12px;padding:12px
-}
+.banner{background:#ff5635;color:white;padding:25px;border-radius:18px;margin:15px}
+.banner h2{margin-top:0}
+.foods{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .food{background:white;border-radius:14px;overflow:hidden;padding-bottom:12px}
-.food-img{
- height:110px;background:#eee;display:flex;
- align-items:center;justify-content:center;font-size:65px
-}
-.food h3{font-size:16px;margin:10px}
-.food p{margin:8px 10px;color:#777;font-size:13px}
-.price{font-weight:bold;color:#ff5635;margin:10px}
-.food button{
- margin:0 10px;width:calc(100% - 20px);
- padding:10px;border:0;border-radius:8px;
- background:#ff5635;color:white;font-weight:bold
-}
-.cartbar{
- position:fixed;bottom:0;left:0;width:100%;
- background:white;padding:12px;display:flex;
- justify-content:center;box-shadow:0 -2px 10px #ddd
-}
-.cartbar button{
- background:#ff5635;color:white;border:0;
- padding:14px 30px;border-radius:12px;font-size:16px
-}
-#cartBox{
- display:none;background:white;margin:15px;
- padding:15px;border-radius:15px
-}
-.cart-item{
- display:flex;justify-content:space-between;
- align-items:center;gap:8px;padding:12px 0;
- border-bottom:1px solid #eee
-}
-.qty button{padding:6px 12px;margin:2px}
-.checkout{
- background:#ff5635;color:white;padding:13px;
- border:0;border-radius:10px;width:100%;margin-top:15px
-}
+.food-img{height:110px;background:#eee;display:flex;align-items:center;justify-content:center;font-size:65px}
+.food h3,.food p,.food .price{margin:8px 10px}
+.food p{font-size:13px;color:#777}
+.price{color:#ff5635;font-weight:bold}
+.food button{margin:5px 10px;width:calc(100% - 20px)}
+.cartbar{position:fixed;bottom:0;left:0;width:100%;background:white;padding:12px;display:flex;justify-content:center;box-shadow:0 -2px 10px #ddd}
+.cartbox{display:none;background:white;margin:15px;padding:15px;border-radius:15px}
+.cart-item{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #eee}
+.auth{display:none;position:fixed;inset:0;background:#0009;z-index:10;align-items:center;justify-content:center;padding:15px}
+.authbox{background:white;padding:22px;border-radius:18px;width:100%;max-width:400px}
+.authbox input{width:100%;padding:13px;margin:8px 0;border:1px solid #ddd;border-radius:8px}
+.authbox button{width:100%;margin-top:10px}
+.authbox .secondary{background:#555}
+#message{font-size:13px;color:#e43b27}
+@media(min-width:650px){.foods{grid-template-columns:repeat(3,1fr)}}
 </style>
 </head>
 
@@ -92,212 +50,343 @@ h2{margin:24px 16px 14px}
 <header>
 <div class="top">
 <div class="logo">🍔 Foodie</div>
-<button class="lang" onclick="toggleLanguage()" id="langBtn">
-English
-</button>
+<div>
+<button class="lang" id="langBtn">हिंदी</button>
+<button id="loginBtn">Login</button>
+</div>
 </div>
 
-<p id="location">📍 भागलपुर, बिहार</p>
-
-<input class="search" id="search"
-placeholder="खाना या रेस्टोरेंट खोजें..."
-oninput="renderFoods()">
+<div class="profile" id="profile">📍 Bhagalpur, Bihar</div>
+<input class="search" id="search" placeholder="Search food or restaurants...">
 </header>
 
-<h2 id="craving">आप क्या खाना चाहेंगे?</h2>
-
+<section>
+<h2 id="craving">What are you craving?</h2>
 <div class="categories" id="categories"></div>
+</section>
 
 <div class="banner">
-<h2 id="bannerTitle">भूख लगी है? चलिए खाते हैं!</h2>
-<p id="bannerText">स्वादिष्ट खाना आपके दरवाजे तक ❤️</p>
+<h2 id="bannerTitle">Hungry? Let's eat!</h2>
+<p id="bannerText">Delicious food delivered to your door ❤️</p>
 </div>
 
-<h2 id="popular">लोकप्रिय खाना 🍴</h2>
+<section>
+<h2 id="popular">Popular Food</h2>
 <div class="foods" id="foods"></div>
+</section>
 
-<div id="cartBox">
-<h2 id="cartTitle">🛒 आपका कार्ट</h2>
+<div class="cartbox" id="cartBox">
+<h2 id="cartTitle">Your Cart</h2>
 <div id="cartItems"></div>
-<h3 id="total">कुल: ₹0</h3>
-<button class="checkout" onclick="checkout()" id="checkoutBtn">
-ऑर्डर करें
-</button>
+<h3 id="total">Total: ₹0</h3>
+<button id="checkout">Continue</button>
 </div>
 
 <div class="cartbar">
-<button onclick="showCart()">
-🛒 <span id="cartLabel">कार्ट</span>
-(<span id="count">0</span>) - ₹<span id="amount">0</span>
-</button>
+<button id="cartBtn">🛒 Cart (0) - ₹0</button>
 </div>
 
-<script>
+<!-- LOGIN / REGISTER MODAL -->
+<div class="auth" id="authModal">
+<div class="authbox">
+<div class="top">
+<h2 id="authTitle">Customer Login</h2>
+<button id="closeAuth">✕</button>
+</div>
+
+<input id="customerName" placeholder="Your Name" style="display:none">
+<input id="email" type="email" placeholder="Email Address">
+<input id="password" type="password" placeholder="Password">
+
+<p id="message"></p>
+
+<button id="submitAuth">Login</button>
+<button class="secondary" id="switchAuth">Create New Account</button>
+<button class="secondary" id="forgot">Forgot Password?</button>
+</div>
+</div>
+
+<script type="module">
+
+// FIREBASE IMPORT
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/13.4.0/firebase-app.js";
+
+import {
+getAuth,
+createUserWithEmailAndPassword,
+signInWithEmailAndPassword,
+sendPasswordResetEmail,
+signOut,
+updateProfile,
+onAuthStateChanged
+}
+from "https://www.gstatic.com/firebasejs/13.4.0/firebase-auth.js";
+
+// YOUR FIREBASE CONFIGURATION
+const firebaseConfig = {
+apiKey: "AIzaSyDiXSnRuzu2E_2I2foUn009z4bcSFU6FZc",
+authDomain: "foodie-7eaf0.firebaseapp.com",
+projectId: "foodie-7eaf0",
+storageBucket: "foodie-7eaf0.firebasestorage.app",
+messagingSenderId: "567494207534",
+appId: "1:567494207534:web:44d13c67dcebfb8dfa57bf"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+// LANGUAGE
+let language = "en";
+let selectedCategory = "All";
+let cart = [];
+let isRegister = false;
+
+const translations = {
+en:{
+login:"Login",logout:"Logout",
+craving:"What are you craving?",
+popular:"Popular Food",
+search:"Search food or restaurants...",
+banner:"Hungry? Let's eat!",
+bannerText:"Delicious food delivered to your door ❤️",
+cart:"Cart",all:"All",add:"Add to Cart",
+name:"Your Name",email:"Email Address",
+password:"Password",register:"Create Account",
+loginTitle:"Customer Login",registerTitle:"Customer Registration",
+forgot:"Forgot Password?",continue:"Continue",
+categories:["All","Pizza","Burger","Biryani","Chicken","Noodles"]
+},
+hi:{
+login:"लॉगिन",logout:"लॉगआउट",
+craving:"आप क्या खाना चाहेंगे?",
+popular:"लोकप्रिय खाना",
+search:"खाना या रेस्टोरेंट खोजें...",
+banner:"भूख लगी है? चलिए खाते हैं!",
+bannerText:"स्वादिष्ट खाना आपके दरवाजे तक ❤️",
+cart:"कार्ट",all:"सभी",add:"कार्ट में डालें",
+name:"आपका नाम",email:"ईमेल पता",
+password:"पासवर्ड",register:"खाता बनाएँ",
+loginTitle:"ग्राहक लॉगिन",registerTitle:"नया खाता बनाएँ",
+forgot:"पासवर्ड भूल गए?",continue:"आगे बढ़ें",
+categories:["सभी","पिज्जा","बर्गर","बिरयानी","चिकन","नूडल्स"]
+}
+};
+
 const products=[
-{id:1,hi:"चिकन बिरयानी",en:"Chicken Biryani",cat:"Biryani",emoji:"🍛",price:149,descHi:"स्वादिष्ट इंडियन बिरयानी",descEn:"Delicious Indian Biryani"},
-{id:2,hi:"वेज पिज्जा",en:"Veg Pizza",cat:"Pizza",emoji:"🍕",price:199,descHi:"ताजा और चीज़ी पिज्जा",descEn:"Fresh and cheesy pizza"},
-{id:3,hi:"चीज बर्गर",en:"Cheese Burger",cat:"Burger",emoji:"🍔",price:99,descHi:"स्वादिष्ट चीज बर्गर",descEn:"Delicious cheese burger"},
-{id:4,hi:"चिकन लेग पीस",en:"Chicken Leg Piece",cat:"Chicken",emoji:"🍗",price:129,descHi:"मसालेदार चिकन",descEn:"Spicy chicken"},
-{id:5,hi:"वेज नूडल्स",en:"Veg Noodles",cat:"Noodles",emoji:"🍜",price:89,descHi:"स्वादिष्ट चाइनीज नूडल्स",descEn:"Delicious Chinese noodles"},
-{id:6,hi:"वेज बिरयानी",en:"Veg Biryani",cat:"Biryani",emoji:"🍚",price:119,descHi:"ताजी वेज बिरयानी",descEn:"Fresh vegetable biryani"},
-{id:7,hi:"पनीर पिज्जा",en:"Paneer Pizza",cat:"Pizza",emoji:"🍕",price:229,descHi:"पनीर और चीज पिज्जा",descEn:"Paneer and cheese pizza"},
-{id:8,hi:"चिकन बर्गर",en:"Chicken Burger",cat:"Burger",emoji:"🍔",price:139,descHi:"क्रिस्पी चिकन बर्गर",descEn:"Crispy chicken burger"}
+{id:1,name:"Chicken Biryani",hi:"चिकन बिरयानी",cat:"Biryani",emoji:"🍛",price:149},
+{id:2,name:"Veg Pizza",hi:"वेज पिज्जा",cat:"Pizza",emoji:"🍕",price:199},
+{id:3,name:"Cheese Burger",hi:"चीज बर्गर",cat:"Burger",emoji:"🍔",price:99},
+{id:4,name:"Chicken Curry",hi:"चिकन करी",cat:"Chicken",emoji:"🍗",price:129},
+{id:5,name:"Veg Noodles",hi:"वेज नूडल्स",cat:"Noodles",emoji:"🍜",price:89},
+{id:6,name:"Paneer Biryani",hi:"पनीर बिरयानी",cat:"Biryani",emoji:"🍚",price:119}
 ];
 
-const categories=[
-{key:"All",emoji:"🍽️",hi:"सभी",en:"All"},
-{key:"Pizza",emoji:"🍕",hi:"पिज्जा",en:"Pizza"},
-{key:"Burger",emoji:"🍔",hi:"बर्गर",en:"Burger"},
-{key:"Biryani",emoji:"🍛",hi:"बिरयानी",en:"Biryani"},
-{key:"Chicken",emoji:"🍗",hi:"चिकन",en:"Chicken"},
-{key:"Noodles",emoji:"🍜",hi:"नूडल्स",en:"Noodles"}
-];
+const $=id=>document.getElementById(id);
 
-let lang=localStorage.getItem("foodieLanguage")||"hi";
-let selected="All";
-let cart=JSON.parse(localStorage.getItem("foodieCart")||"{}");
-let cartOpen=false;
-
-function t(hi,en){
-return lang==="hi"?hi:en;
-}
-
-function toggleLanguage(){
-lang=lang==="hi"?"en":"hi";
-localStorage.setItem("foodieLanguage",lang);
-updateLanguage();
-}
-
+// CHANGE LANGUAGE
 function updateLanguage(){
-document.documentElement.lang=lang;
-document.getElementById("langBtn").innerText=t("English","हिंदी");
-document.getElementById("location").innerText=t("📍 भागलपुर, बिहार","📍 Bhagalpur, Bihar");
-document.getElementById("search").placeholder=t("खाना या रेस्टोरेंट खोजें...","Search food or restaurants...");
-document.getElementById("craving").innerText=t("आप क्या खाना चाहेंगे?","What are you craving?");
-document.getElementById("bannerTitle").innerText=t("भूख लगी है? चलिए खाते हैं!","Hungry? Let's eat!");
-document.getElementById("bannerText").innerText=t("स्वादिष्ट खाना आपके दरवाजे तक ❤️","Delicious food delivered to your door ❤️");
-document.getElementById("popular").innerText=t("लोकप्रिय खाना 🍴","Popular Food 🍴");
-document.getElementById("cartTitle").innerText=t("🛒 आपका कार्ट","🛒 Your Cart");
-document.getElementById("cartLabel").innerText=t("कार्ट","Cart");
-document.getElementById("checkoutBtn").innerText=t("ऑर्डर करें","Place Order");
+const t=translations[language];
+$("langBtn").textContent=language==="en"?"हिंदी":"English";
+$("loginBtn").textContent=auth.currentUser?t.logout:t.login;
+$("craving").textContent=t.craving;
+$("popular").textContent=t.popular;
+$("search").placeholder=t.search;
+$("bannerTitle").textContent=t.banner;
+$("bannerText").textContent=t.bannerText;
+$("cartTitle").textContent=t.cart;
+$("cartBtn").textContent=`🛒 ${t.cart} (${cart.length}) - ₹${cart.reduce((s,x)=>s+x.price*x.qty,0)}`;
 renderCategories();
 renderFoods();
-updateCart();
 }
 
+$("langBtn").onclick=()=>{
+language=language==="en"?"hi":"en";
+updateLanguage();
+};
+
+// CATEGORIES
 function renderCategories(){
-document.getElementById("categories").innerHTML=
-categories.map(c=>`
-<div class="cat ${selected===c.key?"active":""}"
-onclick="category('${c.key}')">
-<span>${c.emoji}</span>${t(c.hi,c.en)}
+const t=translations[language];
+const emojis=["🍽️","🍕","🍔","🍛","🍗","🍜"];
+$("categories").innerHTML=t.categories.map((c,i)=>`
+<div class="cat ${i===0&&selectedCategory==="All"||products.some(p=>p.cat===selectedCategory)&&p.cat===["All","Pizza","Burger","Biryani","Chicken","Noodles"][i]?"active":""}"
+data-cat="${["All","Pizza","Burger","Biryani","Chicken","Noodles"][i]}">
+<span>${emojis[i]}</span>${c}
 </div>`).join("");
-}
 
-function category(cat){
-selected=cat;
+document.querySelectorAll(".cat").forEach(el=>{
+el.onclick=()=>{
+selectedCategory=el.dataset.cat;
 renderCategories();
 renderFoods();
+};
+});
 }
 
+// FOOD LIST
 function renderFoods(){
-let q=document.getElementById("search").value.toLowerCase();
-
-let list=products.filter(p=>
-(selected==="All"||p.cat===selected)&&
-(p.hi.toLowerCase().includes(q)||
-p.en.toLowerCase().includes(q)||
-p.cat.toLowerCase().includes(q))
+const query=$("search").value.toLowerCase();
+const list=products.filter(p=>
+(selectedCategory==="All"||p.cat===selectedCategory)&&
+(p.name.toLowerCase().includes(query)||p.hi.includes(query))
 );
 
-document.getElementById("foods").innerHTML=list.length?
-list.map(p=>`
+$("foods").innerHTML=list.map(p=>`
 <div class="food">
 <div class="food-img">${p.emoji}</div>
-<h3>${t(p.hi,p.en)}</h3>
-<p>${t(p.descHi,p.descEn)}</p>
+<h3>${language==="en"?p.name:p.hi}</h3>
+<p>${language==="en"?"Delicious food":"स्वादिष्ट खाना"}</p>
 <div class="price">₹${p.price}</div>
-<button onclick="add(${p.id})">
-${t("कार्ट में जोड़ें +","Add to Cart +")}
-</button>
-</div>`).join(""):
-`<p>${t("कोई खाना नहीं मिला।","No food found.")}</p>`;
+<button data-id="${p.id}">${translations[language].add}</button>
+</div>`).join("");
+
+document.querySelectorAll(".food button").forEach(btn=>{
+btn.onclick=()=>addToCart(Number(btn.dataset.id));
+});
 }
 
-function save(){
-localStorage.setItem("foodieCart",JSON.stringify(cart));
+$("search").oninput=renderFoods;
+
+// CART
+function addToCart(id){
+const p=products.find(x=>x.id===id);
+const item=cart.find(x=>x.id===id);
+if(item)item.qty++;
+else cart.push({...p,qty:1});
 updateCart();
-if(cartOpen)renderCart();
-}
-
-function add(id){
-cart[id]=(cart[id]||0)+1;
-save();
-}
-
-function change(id,n){
-cart[id]=(cart[id]||0)+n;
-if(cart[id]<=0)delete cart[id];
-save();
 }
 
 function updateCart(){
-let count=0,total=0;
-Object.keys(cart).forEach(id=>{
-let p=products.find(x=>x.id==id);
-if(p){
-count+=cart[id];
-total+=p.price*cart[id];
-}
-});
-document.getElementById("count").innerText=count;
-document.getElementById("amount").innerText=total;
-document.getElementById("total").innerText=
-t("कुल: ₹","Total: ₹")+total;
-}
+const count=cart.reduce((s,x)=>s+x.qty,0);
+const amount=cart.reduce((s,x)=>s+x.price*x.qty,0);
 
-function renderCart(){
-let html="";
-Object.keys(cart).forEach(id=>{
-let p=products.find(x=>x.id==id);
-if(!p)return;
-html+=`
+$("cartBtn").textContent=`🛒 ${translations[language].cart} (${count}) - ₹${amount}`;
+$("total").textContent=`Total: ₹${amount}`;
+
+$("cartItems").innerHTML=cart.map(p=>`
 <div class="cart-item">
-<div>${p.emoji} ${t(p.hi,p.en)}<br>₹${p.price}</div>
-<div class="qty">
-<button onclick="change(${id},-1)">−</button>
-${cart[id]}
-<button onclick="change(${id},1)">+</button>
-</div>
-</div>`;
+<span>${language==="en"?p.name:p.hi} × ${p.qty}</span>
+<span>₹${p.price*p.qty}
+<button data-id="${p.id}" class="remove">−</button>
+</span>
+</div>`).join("");
+
+document.querySelectorAll(".remove").forEach(btn=>{
+btn.onclick=()=>{
+const item=cart.find(x=>x.id===Number(btn.dataset.id));
+if(item){
+item.qty--;
+if(item.qty===0)cart=cart.filter(x=>x.id!==item.id);
+}
+updateCart();
+};
 });
-document.getElementById("cartItems").innerHTML=
-html||t("आपका कार्ट खाली है।","Your cart is empty.");
 }
 
-function showCart(){
-cartOpen=!cartOpen;
-document.getElementById("cartBox").style.display=
-cartOpen?"block":"none";
-if(cartOpen){
-renderCart();
-document.getElementById("cartBox").scrollIntoView({behavior:"smooth"});
-}
-}
+$("cartBtn").onclick=()=>{
+$("cartBox").style.display=
+$("cartBox").style.display==="block"?"none":"block";
+};
 
-function checkout(){
-if(!Object.keys(cart).length){
-alert(t("पहले कार्ट में खाना जोड़ें!","Please add food to your cart first!"));
+$("checkout").onclick=()=>{
+if(!auth.currentUser){
+$("authModal").style.display="flex";
 return;
 }
-alert(t(
-"यह अभी डेमो चेकआउट है। वास्तविक ऑर्डर की सुविधा अगले चरण में जोड़ेंगे।",
-"This is a demo checkout. Real ordering will be added in the next step."
-));
+alert(language==="en"?"Login successful. Order checkout will be added in the next step.":"लॉगिन सफल। ऑर्डर चेकआउट अगले चरण में जोड़ा जाएगा।");
+};
+
+// AUTH MODAL
+$("loginBtn").onclick=()=>{
+if(auth.currentUser){
+signOut(auth);
+return;
+}
+$("authModal").style.display="flex";
+};
+
+$("closeAuth").onclick=()=>{
+$("authModal").style.display="none";
+};
+
+function authLabels(){
+const t=translations[language];
+$("authTitle").textContent=isRegister?t.registerTitle:t.loginTitle;
+$("customerName").style.display=isRegister?"block":"none";
+$("customerName").placeholder=t.name;
+$("email").placeholder=t.email;
+$("password").placeholder=t.password;
+$("submitAuth").textContent=isRegister?t.register:t.login;
+$("switchAuth").textContent=isRegister?t.loginTitle:t.register;
+$("forgot").textContent=t.forgot;
 }
 
-updateLanguage();
-</script>
+$("switchAuth").onclick=()=>{
+isRegister=!isRegister;
+$("message").textContent="";
+authLabels();
+};
 
+$("submitAuth").onclick=async()=>{
+const email=$("email").value.trim();
+const password=$("password").value;
+const name=$("customerName").value.trim();
+
+$("message").textContent="Please wait...";
+
+try{
+if(!email||!password)throw new Error("Email and password required");
+if(password.length<6)throw new Error("Password must be at least 6 characters");
+
+if(isRegister){
+if(!name)throw new Error("Please enter your name");
+
+const result=await createUserWithEmailAndPassword(auth,email,password);
+await updateProfile(result.user,{displayName:name});
+$("message").textContent="Account created successfully!";
+}else{
+await signInWithEmailAndPassword(auth,email,password);
+$("message").textContent="Login successful!";
+}
+
+setTimeout(()=>{$("authModal").style.display="none";},800);
+
+}catch(error){
+$("message").textContent=error.message;
+}
+};
+
+// FORGOT PASSWORD
+$("forgot").onclick=async()=>{
+const email=$("email").value.trim();
+if(!email){
+$("message").textContent="Enter your email first";
+return;
+}
+try{
+await sendPasswordResetEmail(auth,email);
+$("message").textContent="Password reset email sent!";
+}catch(error){
+$("message").textContent=error.message;
+}
+};
+
+// AUTH STATE
+onAuthStateChanged(auth,user=>{
+if(user){
+$("profile").textContent="👤 "+(user.displayName||user.email);
+$("loginBtn").textContent=translations[language].logout;
+}else{
+$("profile").textContent="📍 Bhagalpur, Bihar";
+$("loginBtn").textContent=translations[language].login;
+}
+});
+
+updateLanguage();
+updateCart();
+authLabels();
+
+</script>
 </body>
 </html>
