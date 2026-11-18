@@ -4,110 +4,230 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#ff5635">
 <title>Foodie - Food Delivery</title>
+
 <style>
 *{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:#f7f7f7;color:#222;padding-bottom:90px}
+body{
+ margin:0;
+ font-family:Arial,sans-serif;
+ background:#f7f7f7;
+ color:#222;
+ padding-bottom:90px
+}
 header{background:white;padding:20px}
 .logo{font-size:30px;color:#ff5635;font-weight:bold}
+.top{display:flex;justify-content:space-between;align-items:center}
+.lang{
+ background:#ff5635;color:white;border:0;
+ padding:10px 14px;border-radius:9px;font-weight:bold
+}
 header p{color:#777}
-.search{width:100%;padding:15px;border:1px solid #ddd;border-radius:15px;font-size:16px;margin-top:12px}
+.search{
+ width:100%;padding:15px;border:1px solid #ddd;
+ border-radius:15px;font-size:16px;margin-top:12px
+}
 h2{margin:24px 16px 14px}
-.categories{display:flex;overflow-x:auto;gap:12px;padding:8px 15px}
-.cat{min-width:90px;text-align:center;background:white;padding:15px 8px;border-radius:15px;cursor:pointer}
+.categories{
+ display:flex;overflow-x:auto;gap:12px;padding:8px 15px
+}
+.cat{
+ min-width:90px;text-align:center;background:white;
+ padding:15px 8px;border-radius:15px;cursor:pointer;
+ border:2px solid transparent
+}
+.cat.active{border-color:#ff5635}
 .cat span{font-size:35px;display:block}
-.banner{margin:18px 15px;padding:25px;background:#ff5635;color:white;border-radius:18px}
+.banner{
+ margin:18px 15px;padding:25px;
+ background:#ff5635;color:white;border-radius:18px
+}
 .banner h2{margin:0 0 10px}
-.foods{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:12px}
+.foods{
+ display:grid;grid-template-columns:1fr 1fr;
+ gap:12px;padding:12px
+}
 .food{background:white;border-radius:14px;overflow:hidden;padding-bottom:12px}
-.food-img{height:110px;background:#eee;display:flex;align-items:center;justify-content:center;font-size:65px}
+.food-img{
+ height:110px;background:#eee;display:flex;
+ align-items:center;justify-content:center;font-size:65px
+}
 .food h3{font-size:16px;margin:10px}
 .food p{margin:8px 10px;color:#777;font-size:13px}
 .price{font-weight:bold;color:#ff5635;margin:10px}
-.food button{margin:0 10px;width:calc(100% - 20px);padding:10px;border:0;border-radius:8px;background:#ff5635;color:white;font-weight:bold}
-.cartbar{position:fixed;bottom:0;left:0;width:100%;background:white;padding:12px;box-shadow:0 -2px 10px #ddd;display:flex;justify-content:center}
-.cartbar button{background:#ff5635;color:white;border:0;padding:14px 30px;border-radius:12px;font-size:16px}
-#cartBox{display:none;background:white;margin:15px;padding:15px;border-radius:15px}
-.cart-item{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:12px 0;border-bottom:1px solid #eee}
-.qty button{padding:5px 10px;margin:2px}
+.food button{
+ margin:0 10px;width:calc(100% - 20px);
+ padding:10px;border:0;border-radius:8px;
+ background:#ff5635;color:white;font-weight:bold
+}
+.cartbar{
+ position:fixed;bottom:0;left:0;width:100%;
+ background:white;padding:12px;display:flex;
+ justify-content:center;box-shadow:0 -2px 10px #ddd
+}
+.cartbar button{
+ background:#ff5635;color:white;border:0;
+ padding:14px 30px;border-radius:12px;font-size:16px
+}
+#cartBox{
+ display:none;background:white;margin:15px;
+ padding:15px;border-radius:15px
+}
+.cart-item{
+ display:flex;justify-content:space-between;
+ align-items:center;gap:8px;padding:12px 0;
+ border-bottom:1px solid #eee
+}
+.qty button{padding:6px 12px;margin:2px}
+.checkout{
+ background:#ff5635;color:white;padding:13px;
+ border:0;border-radius:10px;width:100%;margin-top:15px
+}
 </style>
 </head>
+
 <body>
 
 <header>
+<div class="top">
 <div class="logo">🍔 Foodie</div>
-<p>📍 भागलपुर, बिहार</p>
-<input class="search" id="search" placeholder="खाना या रेस्टोरेंट खोजें..." oninput="renderFoods()">
+<button class="lang" onclick="toggleLanguage()" id="langBtn">
+English
+</button>
+</div>
+
+<p id="location">📍 भागलपुर, बिहार</p>
+
+<input class="search" id="search"
+placeholder="खाना या रेस्टोरेंट खोजें..."
+oninput="renderFoods()">
 </header>
 
-<h2>आप क्या खाना चाहेंगे?</h2>
-<div class="categories">
-<div class="cat" onclick="category('All')"><span>🍽️</span>सभी</div>
-<div class="cat" onclick="category('Pizza')"><span>🍕</span>पिज्जा</div>
-<div class="cat" onclick="category('Burger')"><span>🍔</span>बर्गर</div>
-<div class="cat" onclick="category('Biryani')"><span>🍛</span>बिरयानी</div>
-<div class="cat" onclick="category('Chicken')"><span>🍗</span>चिकन</div>
-<div class="cat" onclick="category('Noodles')"><span>🍜</span>नूडल्स</div>
-</div>
+<h2 id="craving">आप क्या खाना चाहेंगे?</h2>
+
+<div class="categories" id="categories"></div>
 
 <div class="banner">
-<h2>भूख लगी है? चलिए खाते हैं!</h2>
-<p>स्वादिष्ट खाना आपके दरवाजे तक ❤️</p>
+<h2 id="bannerTitle">भूख लगी है? चलिए खाते हैं!</h2>
+<p id="bannerText">स्वादिष्ट खाना आपके दरवाजे तक ❤️</p>
 </div>
 
-<h2>लोकप्रिय खाना 🍴</h2>
+<h2 id="popular">लोकप्रिय खाना 🍴</h2>
 <div class="foods" id="foods"></div>
 
 <div id="cartBox">
-<h2>🛒 आपका Cart</h2>
+<h2 id="cartTitle">🛒 आपका कार्ट</h2>
 <div id="cartItems"></div>
 <h3 id="total">कुल: ₹0</h3>
-<button onclick="checkout()" style="background:#ff5635;color:white;padding:13px;border:0;border-radius:10px;width:100%">ऑर्डर करें</button>
+<button class="checkout" onclick="checkout()" id="checkoutBtn">
+ऑर्डर करें
+</button>
 </div>
 
 <div class="cartbar">
-<button onclick="showCart()">🛒 Cart (<span id="count">0</span>) - ₹<span id="amount">0</span></button>
+<button onclick="showCart()">
+🛒 <span id="cartLabel">कार्ट</span>
+(<span id="count">0</span>) - ₹<span id="amount">0</span>
+</button>
 </div>
 
 <script>
 const products=[
-{id:1,name:"चिकन बिरयानी",cat:"Biryani",emoji:"🍛",price:149,desc:"स्वादिष्ट इंडियन बिरयानी"},
-{id:2,name:"वेज पिज्जा",cat:"Pizza",emoji:"🍕",price:199,desc:"ताजा और चीज़ी पिज्जा"},
-{id:3,name:"चीज बर्गर",cat:"Burger",emoji:"🍔",price:99,desc:"स्वादिष्ट चीज बर्गर"},
-{id:4,name:"चिकन लेग पीस",cat:"Chicken",emoji:"🍗",price:129,desc:"मसालेदार चिकन"},
-{id:5,name:"वेज नूडल्स",cat:"Noodles",emoji:"🍜",price:89,desc:"स्वादिष्ट चाइनीज नूडल्स"},
-{id:6,name:"वेज बिरयानी",cat:"Biryani",emoji:"🍚",price:119,desc:"ताजी वेज बिरयानी"},
-{id:7,name:"पनीर पिज्जा",cat:"Pizza",emoji:"🍕",price:229,desc:"पनीर और चीज पिज्जा"},
-{id:8,name:"चिकन बर्गर",cat:"Burger",emoji:"🍔",price:139,desc:"क्रिस्पी चिकन बर्गर"}
+{id:1,hi:"चिकन बिरयानी",en:"Chicken Biryani",cat:"Biryani",emoji:"🍛",price:149,descHi:"स्वादिष्ट इंडियन बिरयानी",descEn:"Delicious Indian Biryani"},
+{id:2,hi:"वेज पिज्जा",en:"Veg Pizza",cat:"Pizza",emoji:"🍕",price:199,descHi:"ताजा और चीज़ी पिज्जा",descEn:"Fresh and cheesy pizza"},
+{id:3,hi:"चीज बर्गर",en:"Cheese Burger",cat:"Burger",emoji:"🍔",price:99,descHi:"स्वादिष्ट चीज बर्गर",descEn:"Delicious cheese burger"},
+{id:4,hi:"चिकन लेग पीस",en:"Chicken Leg Piece",cat:"Chicken",emoji:"🍗",price:129,descHi:"मसालेदार चिकन",descEn:"Spicy chicken"},
+{id:5,hi:"वेज नूडल्स",en:"Veg Noodles",cat:"Noodles",emoji:"🍜",price:89,descHi:"स्वादिष्ट चाइनीज नूडल्स",descEn:"Delicious Chinese noodles"},
+{id:6,hi:"वेज बिरयानी",en:"Veg Biryani",cat:"Biryani",emoji:"🍚",price:119,descHi:"ताजी वेज बिरयानी",descEn:"Fresh vegetable biryani"},
+{id:7,hi:"पनीर पिज्जा",en:"Paneer Pizza",cat:"Pizza",emoji:"🍕",price:229,descHi:"पनीर और चीज पिज्जा",descEn:"Paneer and cheese pizza"},
+{id:8,hi:"चिकन बर्गर",en:"Chicken Burger",cat:"Burger",emoji:"🍔",price:139,descHi:"क्रिस्पी चिकन बर्गर",descEn:"Crispy chicken burger"}
 ];
 
+const categories=[
+{key:"All",emoji:"🍽️",hi:"सभी",en:"All"},
+{key:"Pizza",emoji:"🍕",hi:"पिज्जा",en:"Pizza"},
+{key:"Burger",emoji:"🍔",hi:"बर्गर",en:"Burger"},
+{key:"Biryani",emoji:"🍛",hi:"बिरयानी",en:"Biryani"},
+{key:"Chicken",emoji:"🍗",hi:"चिकन",en:"Chicken"},
+{key:"Noodles",emoji:"🍜",hi:"नूडल्स",en:"Noodles"}
+];
+
+let lang=localStorage.getItem("foodieLanguage")||"hi";
 let selected="All";
 let cart=JSON.parse(localStorage.getItem("foodieCart")||"{}");
+let cartOpen=false;
+
+function t(hi,en){
+return lang==="hi"?hi:en;
+}
+
+function toggleLanguage(){
+lang=lang==="hi"?"en":"hi";
+localStorage.setItem("foodieLanguage",lang);
+updateLanguage();
+}
+
+function updateLanguage(){
+document.documentElement.lang=lang;
+document.getElementById("langBtn").innerText=t("English","हिंदी");
+document.getElementById("location").innerText=t("📍 भागलपुर, बिहार","📍 Bhagalpur, Bihar");
+document.getElementById("search").placeholder=t("खाना या रेस्टोरेंट खोजें...","Search food or restaurants...");
+document.getElementById("craving").innerText=t("आप क्या खाना चाहेंगे?","What are you craving?");
+document.getElementById("bannerTitle").innerText=t("भूख लगी है? चलिए खाते हैं!","Hungry? Let's eat!");
+document.getElementById("bannerText").innerText=t("स्वादिष्ट खाना आपके दरवाजे तक ❤️","Delicious food delivered to your door ❤️");
+document.getElementById("popular").innerText=t("लोकप्रिय खाना 🍴","Popular Food 🍴");
+document.getElementById("cartTitle").innerText=t("🛒 आपका कार्ट","🛒 Your Cart");
+document.getElementById("cartLabel").innerText=t("कार्ट","Cart");
+document.getElementById("checkoutBtn").innerText=t("ऑर्डर करें","Place Order");
+renderCategories();
+renderFoods();
+updateCart();
+}
+
+function renderCategories(){
+document.getElementById("categories").innerHTML=
+categories.map(c=>`
+<div class="cat ${selected===c.key?"active":""}"
+onclick="category('${c.key}')">
+<span>${c.emoji}</span>${t(c.hi,c.en)}
+</div>`).join("");
+}
 
 function category(cat){
 selected=cat;
+renderCategories();
 renderFoods();
 }
 
 function renderFoods(){
 let q=document.getElementById("search").value.toLowerCase();
+
 let list=products.filter(p=>
 (selected==="All"||p.cat===selected)&&
-p.name.toLowerCase().includes(q)
+(p.hi.toLowerCase().includes(q)||
+p.en.toLowerCase().includes(q)||
+p.cat.toLowerCase().includes(q))
 );
-document.getElementById("foods").innerHTML=list.length?list.map(p=>`
+
+document.getElementById("foods").innerHTML=list.length?
+list.map(p=>`
 <div class="food">
 <div class="food-img">${p.emoji}</div>
-<h3>${p.name}</h3>
-<p>${p.desc}</p>
+<h3>${t(p.hi,p.en)}</h3>
+<p>${t(p.descHi,p.descEn)}</p>
 <div class="price">₹${p.price}</div>
-<button onclick="add(${p.id})">Add to Cart +</button>
-</div>`).join(""):"<p>कोई खाना नहीं मिला।</p>";
+<button onclick="add(${p.id})">
+${t("कार्ट में जोड़ें +","Add to Cart +")}
+</button>
+</div>`).join(""):
+`<p>${t("कोई खाना नहीं मिला।","No food found.")}</p>`;
 }
 
 function save(){
 localStorage.setItem("foodieCart",JSON.stringify(cart));
 updateCart();
+if(cartOpen)renderCart();
 }
 
 function add(id){
@@ -119,30 +239,31 @@ function change(id,n){
 cart[id]=(cart[id]||0)+n;
 if(cart[id]<=0)delete cart[id];
 save();
-showCart();
 }
 
 function updateCart(){
 let count=0,total=0;
 Object.keys(cart).forEach(id=>{
 let p=products.find(x=>x.id==id);
+if(p){
 count+=cart[id];
 total+=p.price*cart[id];
+}
 });
 document.getElementById("count").innerText=count;
 document.getElementById("amount").innerText=total;
-document.getElementById("total").innerText="कुल: ₹"+total;
+document.getElementById("total").innerText=
+t("कुल: ₹","Total: ₹")+total;
 }
 
-function showCart(){
-let box=document.getElementById("cartBox");
-box.style.display=box.style.display==="block"?"none":"block";
-box.scrollIntoView({behavior:"smooth"});
+function renderCart(){
 let html="";
 Object.keys(cart).forEach(id=>{
 let p=products.find(x=>x.id==id);
-html+=`<div class="cart-item">
-<div>${p.emoji} ${p.name}<br>₹${p.price}</div>
+if(!p)return;
+html+=`
+<div class="cart-item">
+<div>${p.emoji} ${t(p.hi,p.en)}<br>₹${p.price}</div>
 <div class="qty">
 <button onclick="change(${id},-1)">−</button>
 ${cart[id]}
@@ -150,19 +271,33 @@ ${cart[id]}
 </div>
 </div>`;
 });
-document.getElementById("cartItems").innerHTML=html||"आपका Cart खाली है।";
+document.getElementById("cartItems").innerHTML=
+html||t("आपका कार्ट खाली है।","Your cart is empty.");
+}
+
+function showCart(){
+cartOpen=!cartOpen;
+document.getElementById("cartBox").style.display=
+cartOpen?"block":"none";
+if(cartOpen){
+renderCart();
+document.getElementById("cartBox").scrollIntoView({behavior:"smooth"});
+}
 }
 
 function checkout(){
 if(!Object.keys(cart).length){
-alert("पहले Cart में खाना जोड़ें!");
+alert(t("पहले कार्ट में खाना जोड़ें!","Please add food to your cart first!"));
 return;
 }
-alert("Foodie का Demo Checkout तैयार है। वास्तविक ऑर्डर के लिए अगला चरण पूरा करना होगा।");
+alert(t(
+"यह अभी डेमो चेकआउट है। वास्तविक ऑर्डर की सुविधा अगले चरण में जोड़ेंगे।",
+"This is a demo checkout. Real ordering will be added in the next step."
+));
 }
 
-renderFoods();
-updateCart();
+updateLanguage();
 </script>
+
 </body>
 </html>
