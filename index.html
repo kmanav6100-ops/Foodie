@@ -106,6 +106,70 @@ h2{font-size:22px;font-weight:500}
 </div>
 </div>
 
+<!-- FOODIE CHECKOUT MODAL -->
+<div id="checkoutModal" style="
+display:none;
+position:fixed;
+inset:0;
+z-index:9999;
+background:#0009;
+align-items:center;
+justify-content:center;
+padding:15px;
+">
+  <div style="
+  background:white;
+  width:100%;
+  max-width:450px;
+  padding:22px;
+  border-radius:18px;
+  max-height:90vh;
+  overflow:auto;
+  ">
+    <h2>Delivery Details / डिलीवरी विवरण</h2>
+
+    <input id="deliveryName"
+    placeholder="Customer Name / नाम"
+    required style="width:100%;padding:13px;margin:8px 0;">
+
+    <input id="deliveryPhone"
+    type="tel" placeholder="Mobile Number / मोबाइल नंबर"
+    required maxlength="10"
+    style="width:100%;padding:13px;margin:8px 0;">
+
+    <textarea id="deliveryAddress"
+    placeholder="Full Delivery Address / पूरा पता"
+    required style="width:100%;padding:13px;margin:8px 0;min-height:90px;"></textarea>
+
+    <input id="deliveryPincode"
+    type="text" inputmode="numeric"
+    placeholder="PIN Code / पिन कोड"
+    required maxlength="6"
+    style="width:100%;padding:13px;margin:8px 0;">
+
+    <h3 id="checkoutTotal">Total: ₹0</h3>
+
+    <p>Payment Method / भुगतान का तरीका</p>
+    <select id="paymentMethod" style="width:100%;padding:13px;">
+      <option value="COD">Cash on Delivery (COD)</option>
+    </select>
+
+    <button id="placeOrder" style="
+    width:100%;padding:15px;margin-top:15px;
+    background:#ff5635;color:white;border:0;
+    border-radius:10px;font-size:16px;">
+      Place Order / ऑर्डर करें
+    </button>
+
+    <button id="closeCheckout" style="
+    width:100%;padding:12px;margin-top:10px;
+    background:#555;color:white;border:0;
+    border-radius:10px;">
+      Close / बंद करें
+    </button>
+  </div>
+</div>
+  
 <script type="module">
 
 // FIREBASE IMPORT
