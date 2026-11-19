@@ -124,7 +124,15 @@ onAuthStateChanged
 from "https://www.gstatic.com/firebasejs/13.4.0/firebase-auth.js";
 
 // YOUR FIREBASE CONFIGURATION
-const firebaseConfig = {
+
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  serverTimestamp
+} from "https://www.gstatic.com/firebasejs/13.4.0/firebase-firestore.js";
+  
+  const firebaseConfig = {
 apiKey: "AIzaSyDiXSnRuzu2E_2I2foUn009z4bcSFU6FZc",
 authDomain: "foodie-7eaf0.firebaseapp.com",
 projectId: "foodie-7eaf0",
@@ -135,9 +143,9 @@ appId: "1:567494207534:web:44d13c67dcebfb8dfa57bf"
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
-
+const db = getFirestore(app);
 // LANGUAGE
-let language = "en";
+let language = "en"; nhi
 let selectedCategory = "All";
 let cart = [];
 let isRegister = false;
